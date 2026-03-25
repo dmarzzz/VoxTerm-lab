@@ -9,6 +9,7 @@ experiments/*/*.pcm
 # Python
 __pycache__/
 *.pyc
+*.egg-info/
 .venv/
 venv/
 
