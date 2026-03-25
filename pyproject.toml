@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voxterm-eval"
+version = "0.1.0"
+description = "Speaker diarization evaluation tool for VoxTerm"
+requires-python = ">=3.11"
+dependencies = [
+    "scipy>=1.12.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+voxterm-eval = "voxterm_eval.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["voxterm_eval*"]

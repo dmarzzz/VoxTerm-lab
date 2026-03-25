@@ -49,6 +49,11 @@ fi
 # Install eval/lab dependencies
 pip install -q pytest numpy scipy jiwer 2>/dev/null || true
 
+# Install voxterm-eval package (DER scorer)
+if [ -f "pyproject.toml" ]; then
+    pip install -q -e ".[dev]" 2>/dev/null || true
+fi
+
 # ── Create directory structure ────────────────────────────────────────
 mkdir -p experiments research eval eval-data scripts
 

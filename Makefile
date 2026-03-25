@@ -36,6 +36,7 @@ eval: ## Run evaluation suite (NAME=experiment-name)
 		--output $(EXP_DIR)/scores.json \
 		--timeout $(EVAL_TIMEOUT) 2>&1 | tee $(EXP_DIR)/eval.log
 	@echo "Results: $(EXP_DIR)/scores.json"
+	@echo "Report:  $(EXP_DIR)/scores.html"
 
 ab-eval: ## A/B evaluation (baseline vs working tree changes)
 	@mkdir -p $(EXP_DIR)
