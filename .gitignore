@@ -1,0 +1,30 @@
+# VoxTerm clone (managed by setup.sh)
+voxterm/
+
+# Experiment artifacts
+experiments/*/audio/
+experiments/*/*.wav
+experiments/*/*.pcm
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+*.swp
+
+# Model caches
+models/
+.cache/
+
+# Eval data (large audio files)
+eval-data/*.wav
+eval-data/*.mp3
+eval-data/*.flac
+
+# State
+.state.json
+*.db
