@@ -546,3 +546,516 @@ Initial smoke tier evaluation with qwen3-0.6b
 Initial smoke tier evaluation with qwen3-1.7b
 
 ---
+
+### best-current — 2026-03-30 18:40 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4220 | **RTF:** 0.0513
+
+Diarization eval (smoke tier)
+
+---
+
+### h11-multiscale — 2026-03-30 18:42 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5443 | **RTF:** 0.1396
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:43 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5443 | **RTF:** 0.1365
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:43 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5443 | **RTF:** 0.1374
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:43 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5443 | **RTF:** 0.1387
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:43 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5443 | **RTF:** 0.1361
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:44 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4220 | **RTF:** 0.0480
+
+Diarization eval (smoke tier)
+
+---
+
+### h12-refine — 2026-03-30 18:44 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5841 | **RTF:** 0.0600
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:44 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5566 | **RTF:** 0.0484
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:44 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4924 | **RTF:** 0.0506
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:45 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4924 | **RTF:** 0.0488
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:45 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4618 | **RTF:** 0.0492
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:45 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4618 | **RTF:** 0.0482
+
+Diarization eval (smoke tier)
+
+---
+
+### h13-pad — 2026-03-30 18:45 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4312 | **RTF:** 0.0551
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:45 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4159 | **RTF:** 0.0458
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:46 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4128 | **RTF:** 0.0471
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:46 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4159 | **RTF:** 0.0486
+
+Diarization eval (smoke tier)
+
+---
+
+### h14-pad02-norefine — 2026-03-30 18:46 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4128 | **RTF:** 0.0463
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:46 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4312 | **RTF:** 0.0654
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:46 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5321 | **RTF:** 0.0822
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:46 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3394 | **RTF:** 0.1065
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:47 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3394 | **RTF:** 0.1021
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:47 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5596 | **RTF:** 0.1205
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:47 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4190 | **RTF:** 0.1364
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:47 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4281 | **RTF:** 0.1712
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:47 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5719 | **RTF:** 0.1040
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:47 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5596 | **RTF:** 0.1053
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:47 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3394 | **RTF:** 0.1169
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:48 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5719 | **RTF:** 0.1129
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:48 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5138 | **RTF:** 0.1254
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:48 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.6361 | **RTF:** 0.1356
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:48 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5321 | **RTF:** 0.1158
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:48 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1067
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:48 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3394 | **RTF:** 0.1073
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:48 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3394 | **RTF:** 0.1078
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:49 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3394 | **RTF:** 0.1077
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:49 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5321 | **RTF:** 0.1065
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:49 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4709 | **RTF:** 0.1045
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:49 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1043
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:49 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1036
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:50 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3517 | **RTF:** 0.1056
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:50 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3425 | **RTF:** 0.1062
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:50 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3425 | **RTF:** 0.1056
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:50 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1054
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:50 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1039
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:50 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1085
+
+Diarization eval (smoke tier)
+
+---
+
+### h15-solo-emb — 2026-03-30 18:51 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.7003 | **RTF:** 0.0901
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:51 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5719 | **RTF:** 0.0901
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:51 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4832 | **RTF:** 0.0920
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:51 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4832 | **RTF:** 0.0896
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:51 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.5963 | **RTF:** 0.0904
+
+Diarization eval (smoke tier)
+
+---
+
+### h16-best-so-far — 2026-03-30 18:52 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1044
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:52 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1114
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:52 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1081
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:52 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1068
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:52 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1050
+
+Diarization eval (smoke tier)
+
+---
+
+### best-der — 2026-03-30 18:53 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.3364 | **RTF:** 0.1060
+
+Diarization eval (smoke tier)
+
+---
