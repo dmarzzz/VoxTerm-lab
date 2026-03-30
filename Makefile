@@ -22,7 +22,7 @@ else
 SAMPLES_FLAG :=
 endif
 
-.PHONY: help setup eval eval-smoke eval-standard eval-full ab-eval optimize leaderboard list-experiments report determinism-check
+.PHONY: help setup eval eval-smoke eval-standard eval-full eval-der eval-der-smoke eval-der-standard eval-der-full ab-eval optimize leaderboard list-experiments report determinism-check
 
 # ── Help ─────────────────────────────────────────────────────────────
 help: ## Show all targets
@@ -61,6 +61,31 @@ eval-standard: ## Dev eval — ~2700 samples (use MAX_SAMPLES to limit)
 eval-full: ## Held-out benchmark — 2620 samples, ~5h audio
 	$(MAKE) eval EVAL_TIER=full NAME=$(NAME)
 
+# ── Diarization Evaluation ──────────────────────���────────────────────
+EVAL_CHUNK    ?= 5.0
+EVAL_COLLAR   ?= 0.25
+
+eval-der: ## Run diarization eval (NAME=name EVAL_TIER=smoke|standard|full)
+	@mkdir -p $(EXP_DIR)
+	@echo "Running diarization eval: $(NAME) [tier=$(EVAL_TIER), chunk=$(EVAL_CHUNK)s]"
+	source $(VENV) && python3 eval/run_diarization_eval.py \
+		--voxterm-path $(VOXTERM_DIR) \
+		--output $(EXP_DIR)/scores.json \
+		--tier $(EVAL_TIER) \
+		--chunk $(EVAL_CHUNK) \
+		--collar $(EVAL_COLLAR) 2>&1 | tee $(EXP_DIR)/eval-der.log
+	@echo "Results: $(EXP_DIR)/scores.json"
+
+eval-der-smoke: ## Quick diarization eval — 2 files, ~60s
+	$(MAKE) eval-der EVAL_TIER=smoke NAME=$(NAME)
+
+eval-der-standard: ## Dev diarization eval — first 60s per file
+	$(MAKE) eval-der EVAL_TIER=standard NAME=$(NAME)
+
+eval-der-full: ## Full diarization benchmark
+	$(MAKE) eval-der EVAL_TIER=full NAME=$(NAME)
+
+# ── A/B Evaluation ──────────────────────────────────────────────────
 ab-eval: ## A/B evaluation (baseline vs working tree changes)
 	@mkdir -p $(EXP_DIR)
 	source $(VENV) && bash scripts/run-ab-eval.sh \

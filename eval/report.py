@@ -255,6 +255,40 @@ def _build_wer_table(experiments: list[dict]) -> str:
     return "\n    ".join(rows)
 
 
+def _build_der_table(experiments: list[dict]) -> str:
+    rows = []
+    for e in reversed(experiments):
+        der = e["scores"].get("der")
+        if der is None:
+            continue
+        d = e["scores"].get("details", {})
+        db = d.get("der_breakdown", {})
+        color = score_color(der, (0.10, 0.15))
+        per_file = d.get("per_file", [])
+        files_summary = ", ".join(
+            f'{f["id"]}={fmt_pct(f["der"])}'
+            for f in per_file[:5]
+        ) if per_file else "—"
+        rows.append(
+            f'<tr><td style="font-weight:bold">{esc(e["name"])}</td>'
+            f'<td style="color:{color};font-weight:bold">{fmt_pct(der)}</td>'
+            f'<td>{fmt_pct(db.get("miss_rate"))}</td>'
+            f'<td>{fmt_pct(db.get("fa_rate"))}</td>'
+            f'<td>{fmt_pct(db.get("confusion_rate"))}</td>'
+            f'<td>{d.get("total_speakers", "—")}</td>'
+            f'<td>{d.get("chunk_seconds", "—")}s</td>'
+            f'<td style="font-size:11px">{esc(files_summary)}</td>'
+            f'<td style="color:#555">{d.get("eval_duration_sec", "—")}s</td></tr>'
+        )
+    if not rows:
+        return ""
+    header = ('<table class="full">'
+              '<tr><th>Experiment</th><th>DER</th><th>Miss</th><th>FA</th>'
+              '<th>Confusion</th><th>Speakers</th><th>Chunk</th>'
+              '<th>Per-File</th><th>Time</th></tr>')
+    return header + "\n    ".join(rows) + "</table>"
+
+
 def generate_html(experiments: list[dict], leaderboard: dict, hypotheses: list[dict]) -> str:
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
 
@@ -505,10 +539,8 @@ def generate_html(experiments: list[dict], leaderboard: dict, hypotheses: list[d
 
 <!-- ==================== DER TAB ==================== -->
 <div class="tab-content" id="tab-der">
-  <div class="empty-state">
-    <div class="icon">&#9788;</div>
-    <div class="msg">DER evaluation coming soon.<br>Speaker Score measures who was talking when.</div>
-  </div>
+  <div class="section-title">DER by Experiment</div>
+  {_build_der_table(experiments) if any(e["scores"].get("der") is not None for e in experiments) else '<div class="empty-state"><div class="icon">&#9788;</div><div class="msg">No DER data yet.<br>Run <code>make eval-der NAME=baseline</code></div></div>'}
 </div>
 
 <!-- ==================== HYPOTHESES TAB ==================== -->
