@@ -1221,3 +1221,75 @@ Diarization eval (smoke tier)
 Diarization eval (smoke tier)
 
 ---
+
+### dev — 2026-03-30 18:57 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.2966 | **RTF:** 0.1082
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:57 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.4251 | **RTF:** 0.1116
+
+Diarization eval (smoke tier)
+
+---
+
+### dev — 2026-03-30 18:57 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.2966 | **RTF:** 0.1095
+
+Diarization eval (smoke tier)
+
+---
+
+### standard-der — 2026-03-30 18:58 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.2966 | **RTF:** 0.1091
+
+Diarization eval (standard tier)
+
+---
+
+### full-der — 2026-03-30 18:58 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.2966 | **RTF:** 0.1075
+
+Diarization eval (full tier)
+
+---
+
+### h17-gap-fill — 2026-03-30 18:58 UTC
+
+**Decision:** baseline
+**WER:** N/A | **DER:** 0.2966 | **RTF:** 0.1103
+
+Diarization eval (smoke tier)
+
+---
+
+### whisper-turbo — 2026-03-30 19:00 UTC
+
+**Decision:** baseline
+**WER:** 0.0496 | **DER:** N/A | **RTF:** 0.0659
+
+Initial smoke tier evaluation with turbo
+
+---
+
+### whisper-small — 2026-03-30 19:02 UTC
+
+**Decision:** baseline
+**WER:** 0.0826 | **DER:** N/A | **RTF:** 0.0211
+
+Initial smoke tier evaluation with small
+
+---
