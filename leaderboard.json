@@ -5,7 +5,7 @@
     "date": "2026-03-30"
   },
   "best_der": {
-    "score": 0.247706,
+    "score": 0.184358,
     "experiment": "dev",
     "date": "2026-03-30"
   },
@@ -266,6 +266,17 @@
         "wer": null,
         "der": 0.247706,
         "rtf": 0.1074,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "dev",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.184358,
+        "rtf": 0.1064,
         "speaker_accuracy": null,
         "composite": null
       }
