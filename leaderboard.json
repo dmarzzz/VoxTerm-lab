@@ -5,7 +5,7 @@
     "date": "2026-03-30"
   },
   "best_der": {
-    "score": 0.336391,
+    "score": 0.296636,
     "experiment": "dev",
     "date": "2026-03-30"
   },
@@ -178,6 +178,50 @@
         "wer": null,
         "der": 0.336391,
         "rtf": 0.1067,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "dev",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.311927,
+        "rtf": 0.1055,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "dev",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.30581,
+        "rtf": 0.1049,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "dev",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.299694,
+        "rtf": 0.1038,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "dev",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.296636,
+        "rtf": 0.1057,
         "speaker_accuracy": null,
         "composite": null
       }
