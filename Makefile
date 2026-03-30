@@ -89,6 +89,13 @@ eval-der-full: ## Full diarization benchmark
 VOXCONV_FILES ?= 10
 VOXCONV_DUR   ?= 120
 
+# Build --max-duration flag only when VOXCONV_DUR is set and non-empty
+ifdef VOXCONV_DUR
+VOXCONV_DUR_FLAG := --max-duration $(VOXCONV_DUR)
+else
+VOXCONV_DUR_FLAG :=
+endif
+
 eval-voxconverse: ## VoxConverse diarization eval (NAME=name, VOXCONV_FILES=10, VOXCONV_DUR=120)
 	@mkdir -p $(EXP_DIR)
 	@echo "Running VoxConverse eval: $(NAME) [files=$(VOXCONV_FILES), dur=$(VOXCONV_DUR)s]"
@@ -96,7 +103,7 @@ eval-voxconverse: ## VoxConverse diarization eval (NAME=name, VOXCONV_FILES=10, 
 		--voxterm-path $(VOXTERM_DIR) \
 		--output $(EXP_DIR)/scores.json \
 		--max-files $(VOXCONV_FILES) \
-		--max-duration $(VOXCONV_DUR) 2>&1 | tee $(EXP_DIR)/eval-voxconv.log
+		$(VOXCONV_DUR_FLAG) 2>&1 | tee $(EXP_DIR)/eval-voxconv.log
 	@echo "Results: $(EXP_DIR)/scores.json"
 
 eval-voxconverse-smoke: ## Quick VoxConverse eval — 3 files, 60s each
@@ -106,7 +113,7 @@ eval-voxconverse-standard: ## Dev VoxConverse eval — 10 files, 120s each
 	$(MAKE) eval-voxconverse VOXCONV_FILES=10 VOXCONV_DUR=120 NAME=$(NAME)
 
 eval-voxconverse-full: ## Full VoxConverse eval — all 232 files, full length
-	$(MAKE) eval-voxconverse VOXCONV_FILES=232 VOXCONV_DUR=0 NAME=$(NAME)
+	$(MAKE) eval-voxconverse VOXCONV_FILES=232 VOXCONV_DUR= NAME=$(NAME)
 
 # ── A/B Evaluation ──────────────────────────────────────────────────
 ab-eval: ## A/B evaluation (baseline vs working tree changes)

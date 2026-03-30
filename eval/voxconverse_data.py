@@ -2,12 +2,14 @@
 
 Loads the VoxConverse test set from HuggingFace (diarizers-community/voxconverse).
 Multi-speaker clips from YouTube (debates, news) with RTTM-style annotations.
-16 test files, 2-21 speakers per file, ~64 hours total.
+232 test files, 2-21 speakers per file.
 
 License: CC-BY-4.0
 """
 
 from __future__ import annotations
+
+from collections.abc import Generator
 
 import numpy as np
 
@@ -16,15 +18,15 @@ def load_voxconverse(
     split: str = "test",
     max_files: int | None = None,
     max_duration: float | None = 120.0,
-) -> list[dict]:
-    """Load VoxConverse dataset from HuggingFace.
+) -> Generator[dict, None, None]:
+    """Stream VoxConverse dataset from HuggingFace one file at a time.
 
     Args:
         split: "test" or "validation"
         max_files: limit number of files (None = all)
         max_duration: truncate each file to this many seconds (None = full)
 
-    Returns list of dicts with:
+    Yields dicts with:
         id: file identifier
         audio: np.ndarray float32 mono 16kHz
         ref_segments: list of {"start": float, "end": float, "speaker": str}
@@ -37,13 +39,12 @@ def load_voxconverse(
     ds = load_dataset(
         "diarizers-community/voxconverse",
         split=split,
-        trust_remote_code=True,
+        trust_remote_code=False,
         streaming=True,
     )
 
-    manifest = []
     for i, sample in enumerate(ds):
-        if max_files and i >= max_files:
+        if max_files is not None and i >= max_files:
             break
 
         audio_dict = sample["audio"]
@@ -62,7 +63,7 @@ def load_voxconverse(
 
         # Truncate if requested
         duration = len(audio) / 16000
-        if max_duration and duration > max_duration:
+        if max_duration is not None and duration > max_duration:
             audio = audio[:int(max_duration * 16000)]
             duration = max_duration
 
@@ -73,9 +74,9 @@ def load_voxconverse(
 
         ref_segments = []
         for s, e, spk in zip(starts, ends, speakers):
-            if max_duration and s >= max_duration:
+            if max_duration is not None and s >= max_duration:
                 continue
-            if max_duration:
+            if max_duration is not None:
                 e = min(e, max_duration)
             if e > s:
                 ref_segments.append({
@@ -86,17 +87,14 @@ def load_voxconverse(
 
         unique_speakers = sorted(set(seg["speaker"] for seg in ref_segments))
 
-        manifest.append({
+        print(f"  [{i+1}] {duration:.0f}s, {len(unique_speakers)} speakers, "
+              f"{len(ref_segments)} segments")
+
+        yield {
             "id": f"voxconv-{split}-{i:03d}",
             "audio": audio,
             "ref_segments": ref_segments,
             "duration": duration,
             "n_speakers": len(unique_speakers),
             "speakers": unique_speakers,
-        })
-
-        print(f"  [{i+1}] {duration:.0f}s, {len(unique_speakers)} speakers, "
-              f"{len(ref_segments)} segments")
-
-    print(f"Loaded {len(manifest)} files")
-    return manifest
+        }

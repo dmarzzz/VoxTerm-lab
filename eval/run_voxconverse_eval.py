@@ -80,6 +80,7 @@ def run_diarization_on_file(
             continue
 
         # VAD gating: skip chunks with < 25% speech
+        speech_regions = None
         if vad and vad.is_loaded:
             speech_regions = vad.get_speech_segments(chunk)
             total_speech = sum(e - s for s, e in speech_regions)
@@ -91,7 +92,18 @@ def run_diarization_on_file(
         for label, sid, seg_start, seg_end in results:
             abs_start = (start + seg_start) / SAMPLE_RATE
             abs_end = (start + seg_end) / SAMPLE_RATE
-            hyp_segments.append((abs_start, abs_end, sid))
+
+            # Trim hypothesis to VAD speech regions to reduce false alarms
+            if speech_regions:
+                for vad_s, vad_e in speech_regions:
+                    vad_abs_start = (start + vad_s) / SAMPLE_RATE
+                    vad_abs_end = (start + vad_e) / SAMPLE_RATE
+                    overlap_start = max(abs_start, vad_abs_start)
+                    overlap_end = min(abs_end, vad_abs_end)
+                    if overlap_end > overlap_start:
+                        hyp_segments.append((overlap_start, overlap_end, sid))
+            else:
+                hyp_segments.append((abs_start, abs_end, sid))
 
     return hyp_segments
 
@@ -99,16 +111,11 @@ def run_diarization_on_file(
 def run_voxconverse_eval(
     voxterm_path: str,
     max_files: int = 10,
-    max_duration: float = 120.0,
+    max_duration: float | None = None,
     chunk_seconds: float = 5.0,
     split: str = "test",
 ) -> dict:
     """Run full VoxConverse diarization evaluation."""
-
-    data = load_voxconverse(split, max_files=max_files, max_duration=max_duration)
-    if not data:
-        print("No data loaded!")
-        return {}
 
     engine, model_load_time = create_diarization_engine(voxterm_path)
     vad = create_vad(voxterm_path)
@@ -117,12 +124,17 @@ def run_voxconverse_eval(
     all_der_inputs = []
     eval_start = time.time()
 
-    total_audio_sec = sum(item["duration"] for item in data)
-    total_speakers = sum(item["n_speakers"] for item in data)
+    total_audio_sec = 0.0
+    total_speakers = 0
+    num_files = 0
 
-    print(f"\nDiarizing {len(data)} files (chunk={chunk_seconds}s)...")
+    print(f"\nDiarizing files (chunk={chunk_seconds}s)...")
 
-    for i, item in enumerate(data):
+    for i, item in enumerate(load_voxconverse(split, max_files=max_files, max_duration=max_duration)):
+        num_files += 1
+        total_audio_sec += item["duration"]
+        total_speakers += item["n_speakers"]
+
         t0 = time.time()
         hyp = run_diarization_on_file(engine, vad, item["audio"], chunk_seconds)
         elapsed = time.time() - t0
@@ -153,9 +165,13 @@ def run_voxconverse_eval(
 
         der_pct = der["DER"] * 100
         conf_pct = der["confusion_rate"] * 100
-        print(f"  [{i+1}/{len(data)}] {item['id']}: DER={der_pct:.1f}%  "
+        print(f"  [{i+1}] {item['id']}: DER={der_pct:.1f}%  "
               f"Conf={conf_pct:.1f}%  spk={der['n_ref']}->{der['n_hyp']}  "
               f"RTF={rtf:.3f}")
+
+    if num_files == 0:
+        print("No data loaded!")
+        return {}
 
     eval_duration = time.time() - eval_start
 
@@ -175,7 +191,7 @@ def run_voxconverse_eval(
             "split": split,
             "model_load_time_sec": round(model_load_time, 2),
             "eval_duration_sec": round(eval_duration, 2),
-            "num_files": len(data),
+            "num_files": num_files,
             "total_speakers": total_speakers,
             "total_audio_sec": round(total_audio_sec, 2),
             "total_audio_min": round(total_audio_sec / 60, 2),
@@ -256,7 +272,8 @@ def main():
     parser.add_argument("--voxterm-path", default="./voxterm")
     parser.add_argument("--output", default=None, help="Output scores.json path")
     parser.add_argument("--max-files", type=int, default=10)
-    parser.add_argument("--max-duration", type=float, default=120.0)
+    parser.add_argument("--max-duration", type=float, default=None,
+                        help="Truncate each file to N seconds (omit for full length)")
     parser.add_argument("--chunk", type=float, default=5.0)
     parser.add_argument("--split", default="test", choices=["test", "validation"])
     args = parser.parse_args()
@@ -268,6 +285,10 @@ def main():
         chunk_seconds=args.chunk,
         split=args.split,
     )
+
+    if not scores:
+        print("No results to report.")
+        sys.exit(1)
 
     if args.output:
         os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
