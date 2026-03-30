@@ -137,6 +137,10 @@ print(f'WER={wer_s}  RTF={rtf_s}')" 2>/dev/null || echo "?"); \
 		fi \
 	done 2>/dev/null || echo "  No experiments yet."
 
+dashboard: ## Generate HTML dashboard of all experiments
+	@python3 eval/report.py --output report.html
+	@echo "Open report.html in your browser"
+
 history: ## Show experiment history from meta-optimization logs
 	@python3 -c "\
 from eval.meta import get_experiment_history; \

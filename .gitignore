@@ -25,6 +25,9 @@ eval-data/*.wav
 eval-data/*.mp3
 eval-data/*.flac
 
+# Generated reports
+report.html
+
 # State
 .state.json
 *.db
