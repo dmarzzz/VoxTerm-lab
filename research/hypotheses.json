@@ -1,0 +1,104 @@
+{
+  "hypotheses": [
+    {
+      "id": "H1",
+      "title": "Qwen3-1.7B model upgrade (from 0.6B default)",
+      "status": "improvement",
+      "tier": 1,
+      "category": "transcription",
+      "expected_impact": "high",
+      "risk": "low",
+      "notes": "WER improved from 4.70% to 3.91% (+0.79pp). RTF went from 0.049 to 0.130 (2.6x slower but still well under 0.5 target). Clear win for accuracy with acceptable latency tradeoff."
+    },
+    {
+      "id": "H2",
+      "title": "Lower diarization similarity threshold (0.35 → 0.25)",
+      "status": "regression",
+      "tier": 1,
+      "category": "diarization",
+      "expected_impact": "medium",
+      "risk": "medium",
+      "notes": "Lowering MATCH_THRESHOLD to 0.20 and NEW_SPEAKER_THRESHOLD to 0.15 caused only 2 speakers to be detected (was 3). Everything merged into one cluster. Reverted."
+    },
+    {
+      "id": "H3",
+      "title": "Increase HMM self-transition (0.99 → 0.995)",
+      "status": "untested",
+      "tier": 1,
+      "category": "diarization",
+      "expected_impact": "medium",
+      "risk": "low",
+      "notes": "Not tested directly — focus shifted to offline pipeline. May help online mode."
+    },
+    {
+      "id": "H4",
+      "title": "Offline diarization pipeline with segmentation + AHC clustering",
+      "status": "improvement",
+      "tier": 1,
+      "category": "diarization",
+      "expected_impact": "high",
+      "risk": "medium",
+      "notes": "NEW HYPOTHESIS (replaced spectral re-clustering). Added diarize_offline() method using pyannote segmentation + speaker embedding extraction + AHC clustering. DER improved from 68.8% to 42.2% (-26.6pp). Key: overlap-aware segmentation detects multiple simultaneous speakers."
+    },
+    {
+      "id": "H5",
+      "title": "Disable VAD gating for diarization eval",
+      "status": "improvement",
+      "tier": 2,
+      "category": "diarization",
+      "expected_impact": "medium",
+      "risk": "low",
+      "notes": "Disabling VAD gating reduced DER from 68.8% to 60.6% by itself. Combined with offline pipeline for further gains."
+    },
+    {
+      "id": "H6",
+      "title": "Reduce _MIN_SPEECH_SAMPLES from 1.5s to 0.5s",
+      "status": "improvement",
+      "tier": 1,
+      "category": "diarization",
+      "expected_impact": "medium",
+      "risk": "low",
+      "notes": "Lowered from 24000 to 8000 samples. Allows shorter speech segments to be processed. Also lowered _SCD_MIN_SAMPLES from 3.0s to 1.5s."
+    },
+    {
+      "id": "H7",
+      "title": "Chunk size optimization for offline pipeline (5s → 7s)",
+      "status": "improvement",
+      "tier": 1,
+      "category": "diarization",
+      "expected_impact": "medium",
+      "risk": "low",
+      "notes": "Swept chunk sizes from 3-15s. 7.0s with 50% overlap gave best DER (42.2%). Smaller chunks over-segment, larger chunks under-segment."
+    },
+    {
+      "id": "H8",
+      "title": "AHC clustering threshold tuning (0.50 → 0.52)",
+      "status": "improvement",
+      "tier": 1,
+      "category": "diarization",
+      "expected_impact": "medium",
+      "risk": "low",
+      "notes": "Swept AHC threshold from 0.30-0.70. Best at 0.52: DER 42.2% (confusion 6.7%, FA 0.9%). Higher thresholds merge too aggressively, lower create too many speakers."
+    },
+    {
+      "id": "H9",
+      "title": "Constrained AHC (cannot-link same-chunk speakers)",
+      "status": "neutral",
+      "tier": 2,
+      "category": "diarization",
+      "expected_impact": "medium",
+      "risk": "medium",
+      "notes": "Implemented constrained clustering where speakers from the same chunk can't merge. Did not improve over unconstrained AHC (55.7% vs 47.1%). Constraint too aggressive with overlapping chunks."
+    },
+    {
+      "id": "H10",
+      "title": "Lower segmentation activation threshold (0.5 → 0.3)",
+      "status": "regression",
+      "tier": 2,
+      "category": "diarization",
+      "expected_impact": "low",
+      "risk": "medium",
+      "notes": "Reduced miss rate from 34.9% to 23.2% but increased confusion to 23.9% and FA to 15.9%. Net DER increased to 63%. The lower threshold includes too many noisy frames."
+    }
+  ]
+}

@@ -72,6 +72,7 @@ def run_diarization_on_file(
     chunk_seconds: float = 5.0,
     use_vad: bool = True,
     use_scd: bool = True,
+    use_multi: bool = False,
     vad=None,
     max_duration: float | None = None,
 ) -> dict:
@@ -87,6 +88,23 @@ def run_diarization_on_file(
     t_start = time.time()
 
     engine.reset_session()
+
+    # Offline diarization: process full audio at once with segmentation + clustering
+    if use_multi and hasattr(engine, 'diarize_offline'):
+        results = engine.diarize_offline(audio, chunk_seconds=chunk_seconds)
+        for label, sid, seg_start, seg_end in results:
+            hyp_segments.append((seg_start / SAMPLE_RATE, seg_end / SAMPLE_RATE, sid))
+
+        elapsed = time.time() - t_start
+        rtf = elapsed / duration if duration > 0 else 0
+        der_result = compute_der(ref_segments, hyp_segments)
+        der_result["rtf"] = rtf
+        der_result["elapsed_sec"] = elapsed
+        der_result["audio_duration"] = duration
+        der_result["n_chunks"] = 1
+        der_result["n_hyp_segments"] = len(hyp_segments)
+        der_result["hyp_segments"] = hyp_segments
+        return der_result
 
     for start in range(0, len(audio), chunk_samples):
         end = min(start + chunk_samples, len(audio))
@@ -104,8 +122,25 @@ def run_diarization_on_file(
         else:
             speech_regions = None
 
-        # SCD-based segmentation or single-chunk identification
-        if use_scd:
+        # Multi-speaker (overlap-aware), SCD-based, or single-chunk identification
+        if use_multi:
+            results = engine.identify_multi(chunk)
+            for label, sid, seg_start, seg_end in results:
+                if speech_regions:
+                    for vs, ve in speech_regions:
+                        inter_start = max(seg_start, vs)
+                        inter_end = min(seg_end, ve)
+                        if inter_end > inter_start + SAMPLE_RATE // 4:
+                            hyp_segments.append((
+                                (start + inter_start) / SAMPLE_RATE,
+                                (start + inter_end) / SAMPLE_RATE,
+                                sid,
+                            ))
+                else:
+                    abs_start = (start + seg_start) / SAMPLE_RATE
+                    abs_end = (start + seg_end) / SAMPLE_RATE
+                    hyp_segments.append((abs_start, abs_end, sid))
+        elif use_scd:
             results = engine.identify_segments(chunk)
             for label, sid, seg_start, seg_end in results:
                 if speech_regions:
@@ -159,6 +194,7 @@ def run_diarization_eval(
     chunk_seconds: float = 5.0,
     use_vad: bool = True,
     use_scd: bool = True,
+    use_multi: bool = False,
     collar: float = 0.25,
 ) -> dict:
     """Run full diarization evaluation.
@@ -182,8 +218,9 @@ def run_diarization_eval(
     all_der_inputs = []
     eval_start = time.time()
 
+    mode = "MULTI" if use_multi else ("SCD" if use_scd else "SINGLE")
     print(f"\nDiarizing {len(manifest)} files (chunk={chunk_seconds}s, "
-          f"VAD={'ON' if use_vad else 'OFF'}, SCD={'ON' if use_scd else 'OFF'})...")
+          f"VAD={'ON' if use_vad else 'OFF'}, mode={mode})...")
 
     for i, item in enumerate(manifest):
         file_id = item["id"]
@@ -209,6 +246,7 @@ def run_diarization_eval(
             chunk_seconds=chunk_seconds,
             use_vad=use_vad,
             use_scd=use_scd,
+            use_multi=use_multi,
             vad=vad,
             max_duration=max_dur,
         )
@@ -273,6 +311,7 @@ def run_diarization_eval(
             "chunk_seconds": chunk_seconds,
             "use_vad": use_vad,
             "use_scd": use_scd,
+            "use_multi": use_multi,
             "collar": collar,
             "der_breakdown": {
                 "der": round(agg.der, 6),
@@ -356,6 +395,8 @@ def main():
     parser.add_argument("--chunk", type=float, default=5.0, help="Chunk size in seconds")
     parser.add_argument("--no-vad", action="store_true", help="Disable VAD gating")
     parser.add_argument("--no-scd", action="store_true", help="Disable SCD segmentation")
+    parser.add_argument("--multi", action="store_true",
+                        help="Use identify_multi for overlap-aware diarization")
     parser.add_argument("--collar", type=float, default=0.25,
                         help="Collar size in seconds (default: 0.25)")
     args = parser.parse_args()
@@ -366,6 +407,7 @@ def main():
         chunk_seconds=args.chunk,
         use_vad=not args.no_vad,
         use_scd=not args.no_scd,
+        use_multi=args.multi,
         collar=args.collar,
     )
 

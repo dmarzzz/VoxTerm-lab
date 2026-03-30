@@ -1,0 +1,142 @@
+{
+  "best_wer": {
+    "score": 0.03913,
+    "experiment": "qwen3-1.7b",
+    "date": "2026-03-30"
+  },
+  "best_der": {
+    "score": 0.422018,
+    "experiment": "dev",
+    "date": "2026-03-30"
+  },
+  "best_rtf": {
+    "score": 0.0074,
+    "experiment": "h2b-no-vad-no-scd",
+    "date": "2026-03-30"
+  },
+  "best_speaker_accuracy": null,
+  "best_composite": null,
+  "history": [
+    {
+      "experiment": "baseline",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": 0.046957,
+        "der": null,
+        "rtf": 0.0491,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "baseline-der",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.688073,
+        "rtf": 0.0326,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "h1-no-vad",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.605505,
+        "rtf": 0.0326,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "h2-no-scd",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.688073,
+        "rtf": 0.0119,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "h2b-no-vad-no-scd",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.66055,
+        "rtf": 0.0074,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "h7b-offline-t70",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.58104,
+        "rtf": 0.0486,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "h7-t065",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.470948,
+        "rtf": 0.0486,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "h7-c70",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.46789,
+        "rtf": 0.0428,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "dev",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.461774,
+        "rtf": 0.044,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "dev",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": null,
+        "der": 0.422018,
+        "rtf": 0.0441,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    },
+    {
+      "experiment": "qwen3-1.7b",
+      "date": "2026-03-30",
+      "scores": {
+        "wer": 0.03913,
+        "der": null,
+        "rtf": 0.1297,
+        "speaker_accuracy": null,
+        "composite": null
+      }
+    }
+  ]
+}
