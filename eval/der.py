@@ -105,13 +105,32 @@ def compute_der(
             for r_spk in ref_active:
                 cooccur[(h_id, r_spk)] = cooccur.get((h_id, r_spk), 0) + 1
 
-    # Greedy best-first mapping
+    # Optimal mapping via Hungarian algorithm (scipy) or greedy fallback
+    hyp_ids = sorted({h_id for (h_id, _) in cooccur})
+    ref_spks = sorted({r_spk for (_, r_spk) in cooccur})
     hyp_to_ref: dict[int, str] = {}
-    used_ref: set[str] = set()
-    for (h_id, r_spk), count in sorted(cooccur.items(), key=lambda x: -x[1]):
-        if h_id not in hyp_to_ref and r_spk not in used_ref:
-            hyp_to_ref[h_id] = r_spk
-            used_ref.add(r_spk)
+
+    try:
+        from scipy.optimize import linear_sum_assignment
+        import numpy as _np
+
+        # Build cost matrix (negative co-occurrence for minimization)
+        cost = _np.zeros((len(hyp_ids), len(ref_spks)))
+        for i, h_id in enumerate(hyp_ids):
+            for j, r_spk in enumerate(ref_spks):
+                cost[i, j] = -cooccur.get((h_id, r_spk), 0)
+
+        row_ind, col_ind = linear_sum_assignment(cost)
+        for r, c in zip(row_ind, col_ind):
+            if -cost[r, c] > 0:  # only map if there's actual co-occurrence
+                hyp_to_ref[hyp_ids[r]] = ref_spks[c]
+    except ImportError:
+        # Greedy best-first fallback
+        used_ref: set[str] = set()
+        for (h_id, r_spk), count in sorted(cooccur.items(), key=lambda x: -x[1]):
+            if h_id not in hyp_to_ref and r_spk not in used_ref:
+                hyp_to_ref[h_id] = r_spk
+                used_ref.add(r_spk)
 
     # Score each frame
     for t_idx in range(n_frames):
