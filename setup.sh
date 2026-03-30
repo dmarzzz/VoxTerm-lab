@@ -21,7 +21,21 @@ echo
 
 # ── System check ──────────────────────────────────────────────────────
 info "Checking system..."
-python3 --version || { echo "Python 3.11+ required"; exit 1; }
+
+# Prefer Python 3.12+ for MLX compatibility
+PYTHON=""
+for py in python3.12 python3.13 python3.11 python3; do
+    if command -v "$py" &>/dev/null; then
+        ver=$("$py" -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+        major="${ver%%.*}"; minor="${ver#*.}"
+        if [ "$major" -ge 3 ] && [ "$minor" -ge 10 ]; then
+            PYTHON="$py"
+            break
+        fi
+    fi
+done
+[ -z "$PYTHON" ] && { echo "Python 3.10+ required (3.12 recommended)"; exit 1; }
+info "Using $PYTHON ($($PYTHON --version))"
 
 # ── Clone VoxTerm ─────────────────────────────────────────────────────
 if [ -d "$VOXTERM_DIR/.git" ]; then
@@ -35,7 +49,7 @@ fi
 # ── Create virtual environment ────────────────────────────────────────
 if [ ! -d ".venv" ]; then
     info "Creating Python virtual environment..."
-    python3 -m venv .venv
+    "$PYTHON" -m venv .venv
 fi
 
 info "Activating venv and installing dependencies..."
@@ -47,10 +61,11 @@ if [ -f "$VOXTERM_DIR/requirements.txt" ]; then
 fi
 
 # Install eval/lab dependencies
-pip install -q pytest numpy scipy jiwer 2>/dev/null || true
+pip install -q pytest numpy scipy jiwer soundfile librosa 2>/dev/null || true
+pip install -q "datasets<4.0" 2>/dev/null || true
 
 # ── Create directory structure ────────────────────────────────────────
-mkdir -p experiments research eval eval-data scripts
+mkdir -p experiments research eval eval-data scripts .cache
 
 # ── Seed initial files ────────────────────────────────────────────────
 if [ ! -f "research/hypotheses.json" ]; then
